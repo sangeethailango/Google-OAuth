@@ -1,5 +1,5 @@
 import React, {Fragment, useState, useEffect} from 'react';
-import Overlay from './Overlay/index';
+import Overlay from './Overlay/overlay';
 
 const NonAuthenticatedContent = () => {
   const [showOverlay, setShowOverlay] = useState(true);

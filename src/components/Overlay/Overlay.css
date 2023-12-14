@@ -18,7 +18,8 @@
   left: 0;
   margin: auto;
   z-index: 10;
-  padding: 30px;
+  border-radius: 10px;
+  padding: 80px;
   width: fit-content;
   height: fit-content;
 }
@@ -31,6 +32,7 @@
 
 .overlay__close:after {
   display: inline-block;
+  display: none;
   content: "\00d7";
 }
 
