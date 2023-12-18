@@ -1,18 +1,18 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import Overlay from './Overlay/overlay';
 
-const NonAuthenticatedContent = () => {
+const NonauthorizedContent = () => {
   const [showOverlay, setShowOverlay] = useState(true);
-  console.log("NonAuthenticatedContent")
+  console.log("NonauthorizedContent")
 
   return (  
     <div>
       <Overlay isOpen={showOverlay} onClose={() => setShowOverlay(false)}>
-        User is not authenticated
+       <p style={{fontSize: "20px"}}> User is not autherized </p>
       </Overlay>
   </div>
 
   );
 };
 
-export default NonAuthenticatedContent;
+export default NonauthorizedContent;

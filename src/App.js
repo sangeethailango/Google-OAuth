@@ -1,36 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import raw from './encrypted_emails.txt';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AuthenticatedContent from './components/authenticatedcontent.js';
+import AuthorizedContent from '/home/sangeetha/Programming/google-oauth/client/src/components/autherizedcontent.js';
 import Overlay from "./components/Overlay/overlay";
-import NonAuthenticatedContent from './components/non-authenticated-contented.js';
-import env from "react-dotenv";
+import NonauthorizedContent from './components/non-autherized-content.js';
 
 const CryptoJS = require('crypto-js');
 
 
 function App() {
   const [decryptedEmails, setDecryptedEmails] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isauthorized, setIsauthorized] = useState(false);
 	const [isToken ,setToken] = useState(false)
   const [showOverlay, setShowOverlay] = useState(true);
 
   useEffect(() => {
 			const fetchData = async () => {
 				try {
-					const response = await fetch(raw);
-					const text = await response.text();
-					const lines = text.split('\n');
+					const response = await fetch('https://raw.githubusercontent.com/flame-tao/ltkw-encrypt/main/base.json?token=GHSAT0AAAAAACLGDDYRVGP2J2WDRZSUSWDKZMAEM4Q');
+					const data = await response.json();
 
-					const emails = lines.map((line) => {
-						const secret_key = process.env.REACT_APP_SECRET_KEY ? process.env.REACT_APP_SECRET_KEY : '12345';										
+					const secret_key = process.env.REACT_APP_SECRET_KEY ? process.env.REACT_APP_SECRET_KEY : '12345';										
+
+					const emails = data.map((encryptedEmail) => {
 						try {            
-							const decryptedEmails = CryptoJS.AES.decrypt(line, secret_key).toString(CryptoJS.enc.Utf8);
+							const decryptedEmails = CryptoJS.AES.decrypt(encryptedEmail.data, secret_key).toString(CryptoJS.enc.Utf8);
 							return decryptedEmails;
 						} catch (error) {
-							console.error('Invalid token:', line);
+							console.error('Invalid token:', response);
+							console.error('Error decrypting email:', error);
+			
 							return null;
 						}
 					});
@@ -69,9 +69,9 @@ function App() {
 				const decoded = jwtDecode(token);
 
 				if (decryptedEmails.includes(decoded.email)) {
-					setIsAuthenticated(true);
+					setIsauthorized(true);
 				} else {
-					setIsAuthenticated(false);
+					setIsauthorized(false);
 				}
 			}
   };
@@ -83,13 +83,14 @@ function App() {
           <Route
             path="/"
             element={
-              isAuthenticated ? (
-                <AuthenticatedContent />
+              isauthorized ? (
+                <AuthorizedContent />
               ) : (
 								isToken ? (
-                <NonAuthenticatedContent />
+                <NonauthorizedContent />
               ) : (
 								<Overlay isOpen={showOverlay} onClose={() => setShowOverlay(false)}>
+      	          <center style={{paddingBottom: "10%", fontSize: "30px"}}>Welcome!</center>
 								  <GoogleLogin onSuccess={responseMessage} />
 							  </Overlay>
 							)
