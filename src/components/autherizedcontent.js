@@ -1,12 +1,13 @@
 import React, {Fragment, useState, useEffect} from 'react';
 
-const AuthenticatedContent = () => {
+const AuthorizedContent = () => {
   return (
     <div>
-      <centre></centre>
+      <center>
       <h2>Hello World!!!!</h2>
+      </center>
     </div>
   );
 };
 
-export default AuthenticatedContent;
+export default AuthorizedContent;
