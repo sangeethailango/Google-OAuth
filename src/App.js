@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AuthorizedContent from '/home/sangeetha/Programming/google-oauth/client/src/components/autherizedcontent.js';
+import AuthorizedContent from './components/autherizedcontent.js';
 import Overlay from "./components/Overlay/overlay";
 import NonauthorizedContent from './components/non-autherized-content.js';
 
 const CryptoJS = require('crypto-js');
-
 
 function App() {
   const [decryptedEmails, setDecryptedEmails] = useState([]);
@@ -18,7 +17,7 @@ function App() {
   useEffect(() => {
 			const fetchData = async () => {
 				try {
-					const response = await fetch('https://raw.githubusercontent.com/flame-tao/ltkw-encrypt/main/base.json?token=GHSAT0AAAAAACLGDDYRVGP2J2WDRZSUSWDKZMAEM4Q');
+					const response = await fetch('https://tao-la-configs.s3.ap-south-1.amazonaws.com/base.json');
 					const data = await response.json();
 
 					const secret_key = process.env.REACT_APP_SECRET_KEY ? process.env.REACT_APP_SECRET_KEY : '12345';										
